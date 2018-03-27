@@ -28,7 +28,7 @@ public class CartTests {
     }
 
     @Test
-    public void shouldCalculateTotalPriceIfDataValid_Test() {
+    public void shouldCalculateTotalPriceIfDataValidTest() {
         double realItemPrice = 45;
         double virtualItemPrice = 90;
         double tax = 0.2;
@@ -41,24 +41,5 @@ public class CartTests {
         double totalPrice = cart.getTotalPrice();
 
         assertEquals(expectedTotalPrice, totalPrice, String.format("Expected total price: %.2f\nActual total price: %.2f", expectedTotalPrice, totalPrice));
-        //this scenario could be right for unit tests?
-    }
-
-    @Test
-    public void shouldReturnZeroTotalPriceValueIfRealItemPriceAbsentTest() {
-        cart.addRealItem(realItem);
-        double totalPrice = cart.getTotalPrice();
-
-        assertEquals(0, totalPrice, String.format("Expected total price: %n\nActual total price: %n", 0, totalPrice));
-        //this scenario could be right for unit tests?
-    }
-
-    @Test
-    public void shouldReturnZeroTotalPriceValueIfVirtualItemPriceAbsentTest() {
-        cart.addVirtualItem(virtualItem);
-        double totalPrice = cart.getTotalPrice();
-
-        assertEquals(0, totalPrice, String.format("Expected total price: %n\nActual total price: %n", 0, totalPrice));
-        //this scenario could be right for unit tests?
     }
 }

@@ -3,6 +3,7 @@ import org.junit.jupiter.api.*;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.ArgumentsSource;
 import parser.JsonParser;
+import parser.NoSuchFileException;
 import parser.Parser;
 import shop.Cart;
 import shop.RealItem;
@@ -17,7 +18,6 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 
 public class JsonParserTests {
 
-    private static final String CART_NAME = "Alex Cart";
     private static final String REAL_ITEM_NAME = "Jeely Atlas";
     private static final double PRICE = 26000;
     private static final double WEIGHT = 2000;
@@ -38,20 +38,20 @@ public class JsonParserTests {
     }
 
     @Tag("jsonParserExceptionTest")
-    @DisplayName("Should pass a null object to this test method")
-    @ParameterizedTest(name = "{index} => Cart Object=''{0}''")
+    @DisplayName("Should pass a nonexistent file to this test method")
+    @ParameterizedTest(name = "{index} => File name = ''{0}''")
     @ArgumentsSource(JsonDataProvider.class)
-    public void shouldHandleNullPointerExceptionIfCartIsNullTest(Parser parser) {
-        cart = createCartWithRealItem(CART_NAME, REAL_ITEM_NAME, PRICE, WEIGHT);
+    public void shouldHandleNoSuchExceptionIfFileNotExistTest(String filePath) {
+        parser = new JsonParser();
 
-        assertThrows(java.lang.NullPointerException.class, () -> {parser.writeToFile(cart);});
+        assertThrows(NoSuchFileException.class, () -> {parser.readFromFile(new File(filePath));});
     }
 
     @Test
     @Tag("jsonParserPositiveTest")
     @Disabled
     public void shouldCreateJsonFileIfDataValidTest() {
-        cart = createCartWithRealItem(CART_NAME, REAL_ITEM_NAME, PRICE, WEIGHT);
+        cart = createCartWithRealItem(fileName, REAL_ITEM_NAME, PRICE, WEIGHT);
 
         parser = new JsonParser();
         parser.writeToFile(cart);
