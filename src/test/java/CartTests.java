@@ -1,14 +1,11 @@
-import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Tag;
-import org.junit.jupiter.api.Test;
+import org.testng.annotations.BeforeMethod;
+import org.testng.annotations.Test;
 import shop.Cart;
 import shop.RealItem;
 import shop.VirtualItem;
 
-import static org.junit.jupiter.api.Assertions.assertAll;
-import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.testng.Assert.assertEquals;
 
-@Tag("cartPositiveTest")
 public class CartTests {
 
     private static final String CART_NAME = "TestCart";
@@ -18,7 +15,7 @@ public class CartTests {
     private RealItem realItem;
     private VirtualItem virtualItem;
 
-    @BeforeEach
+    @BeforeMethod(alwaysRun = true)
     public void init() {
         cart = new Cart(CART_NAME);
         realItem = new RealItem();
@@ -27,7 +24,7 @@ public class CartTests {
         virtualItem.setName(VIRTUAL_ITEM_NAME);
     }
 
-    @Test
+    @Test(groups = {"CartTestsGroup", "MainGroup"})
     public void shouldCalculateTotalPriceIfDataValidTest() {
         double realItemPrice = 45;
         double virtualItemPrice = 90;

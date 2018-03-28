@@ -1,0 +1,19 @@
+<!DOCTYPE suite SYSTEM "http://testng.org/testng-1.0.dtd" >
+
+<suite name="RealAndVirtualItemsClassesTest">
+    <test name="UnitTests">
+        <groups>
+             <run>
+                 <exclude name="CartTestsGroup"></exclude>
+                 <exclude name="JsonParserTestsGroup"></exclude>
+            </run>
+        </groups>
+
+        <classes>
+            <class name="RealItemTests" />
+            <class name="VirtualItemTests" />
+            <class name="CartTests"></class>
+            <class name="JsonParserTests"></class>
+        </classes>
+    </test>
+</suite>

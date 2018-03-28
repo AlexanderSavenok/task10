@@ -1,11 +1,8 @@
-import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Tag;
-import org.junit.jupiter.api.Test;
+import org.testng.Assert;
+import org.testng.annotations.BeforeMethod;
+import org.testng.annotations.Test;
 import shop.VirtualItem;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-
-@Tag("virtualItemPositiveTest")
 public class VirtualItemTests {
 
     private static final String NAME = "PornHub Premium Account";
@@ -13,7 +10,7 @@ public class VirtualItemTests {
     private static final double SIZE_ON_DISK = 200000;
     private VirtualItem virtualItem;
 
-    @BeforeEach
+    @BeforeMethod(alwaysRun = true)
     public void init() {
         virtualItem = new VirtualItem();
         virtualItem.setName(NAME);
@@ -21,11 +18,11 @@ public class VirtualItemTests {
         virtualItem.setSizeOnDisk(SIZE_ON_DISK);
     }
 
-    @Test
+    @Test(groups = {"VirtualItemTestsGroup", "MainGroup"})
     public void shouldReturnValidStringObjectRepresentingIfDataValidTest() {
         String expectedStringRepresenting = String.format("Class: %s; Name: %s; Price: %s; Size on disk: %s", VirtualItem.class.toString(), NAME, PRICE, SIZE_ON_DISK);
         String actualStringRepresenting = virtualItem.toString();
 
-        assertEquals(expectedStringRepresenting, actualStringRepresenting, String.format("Expected string representing: %d\nActual string representing: %d", expectedStringRepresenting, actualStringRepresenting));
+        Assert.assertEquals(expectedStringRepresenting, actualStringRepresenting, String.format("Expected string representing: %s\nActual string representing: %s", expectedStringRepresenting, actualStringRepresenting));
     }
 }

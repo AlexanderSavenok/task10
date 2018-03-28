@@ -1,0 +1,12 @@
+<!DOCTYPE suite SYSTEM "http://testng.org/testng-1.0.dtd" >
+
+<suite name="TestAll">
+    <test name="UnitTests">
+        <classes>
+            <class name="CartTests" />
+            <class name="JsonParserTests" />
+            <class name="RealItemTests" />
+            <class name="VirtualItemTests" />
+        </classes>
+    </test>
+</suite>

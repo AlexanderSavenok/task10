@@ -1,11 +1,8 @@
-import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Tag;
-import org.junit.jupiter.api.Test;
+import org.testng.Assert;
+import org.testng.annotations.BeforeMethod;
+import org.testng.annotations.Test;
 import shop.RealItem;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-
-@Tag("realItemPositiveTest")
 public class RealItemTests {
 
     private final String name = "BMW";
@@ -13,7 +10,7 @@ public class RealItemTests {
     private final double weight = 2000;
     private RealItem realItem;
 
-    @BeforeEach
+    @BeforeMethod(alwaysRun = true)
     public void init() {
         realItem = new RealItem();
         realItem.setName(name);
@@ -21,11 +18,11 @@ public class RealItemTests {
         realItem.setWeight(weight);
     }
 
-    @Test
+    @Test(groups = {"RealItemTestsGroup", "MainGroup"})
     public void shouldReturnValidStringObjectRepresentingIfDataValidTest() {
         String expectedStringRepresenting = String.format("Class: %s; Name: %s; Price: %s; Weight: %s", RealItem.class.toString(), name, price, weight);
         String actualStringRepresenting = realItem.toString();
 
-        assertEquals(expectedStringRepresenting, actualStringRepresenting, String.format("Expected string representing: %d\nActual string representing: %d", expectedStringRepresenting, actualStringRepresenting));
+        Assert.assertEquals(expectedStringRepresenting, actualStringRepresenting, String.format("Expected string representing: %s\nActual string representing: %s", expectedStringRepresenting, actualStringRepresenting));
     }
 }

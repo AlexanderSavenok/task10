@@ -1,7 +1,8 @@
 import dataProviders.JsonDataProvider;
-import org.junit.jupiter.api.*;
-import org.junit.jupiter.params.ParameterizedTest;
-import org.junit.jupiter.params.provider.ArgumentsSource;
+import org.testng.annotations.AfterMethod;
+import org.testng.annotations.BeforeMethod;
+import org.testng.annotations.Parameters;
+import org.testng.annotations.Test;
 import parser.JsonParser;
 import parser.NoSuchFileException;
 import parser.Parser;
@@ -12,9 +13,9 @@ import java.io.File;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 
-import static org.junit.jupiter.api.Assertions.assertThrows;
-import static org.junit.jupiter.api.Assertions.assertTrue;
-import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.testng.Assert.assertEquals;
+import static org.testng.Assert.assertThrows;
+import static org.testng.Assert.assertTrue;
 
 public class JsonParserTests {
 
@@ -28,7 +29,7 @@ public class JsonParserTests {
     private Parser parser;
     private Cart cart;
 
-    @BeforeEach
+    @BeforeMethod(alwaysRun = true)
     public void init() {
         timeStamp = new SimpleDateFormat("yyyyMMdd_HHmmss").format(Calendar.getInstance().getTime());
         fileName = "TestFileName_" + timeStamp;
@@ -37,19 +38,15 @@ public class JsonParserTests {
         parser = new JsonParser();
     }
 
-    @Tag("jsonParserExceptionTest")
-    @DisplayName("Should pass a nonexistent file to this test method")
-    @ParameterizedTest(name = "{index} => File name = ''{0}''")
-    @ArgumentsSource(JsonDataProvider.class)
+    @Test(dataProvider = "filePaths", dataProviderClass = JsonDataProvider.class, groups = {"JsonParserTestsGroup", "MainGroup"})
+    //@Parameters({"invalidPath"}) //This for testng.xml configuration file with parameters
     public void shouldHandleNoSuchExceptionIfFileNotExistTest(String filePath) {
         parser = new JsonParser();
 
         assertThrows(NoSuchFileException.class, () -> {parser.readFromFile(new File(filePath));});
     }
 
-    @Test
-    @Tag("jsonParserPositiveTest")
-    @Disabled
+    @Test(enabled = false, groups = {"JsonParserTestsGroup", "disabled", "MainGroup"})
     public void shouldCreateJsonFileIfDataValidTest() {
         cart = createCartWithRealItem(fileName, REAL_ITEM_NAME, PRICE, WEIGHT);
 
@@ -59,8 +56,7 @@ public class JsonParserTests {
         assertTrue(fileToImport.exists(), "Json file was not written");
     }
 
-    @Test
-    @Tag("jsonParserPositiveTest")
+    @Test(groups = {"JsonParserTestsGroup", "MainGroup"})
     public void shouldParseDataFromFileIfFileExistsTest() {
         String fileName = "TestFileName_ReadMethod";
         String filePath = String.format("src/main/resources/%s" + ".json", fileName);
@@ -73,7 +69,7 @@ public class JsonParserTests {
         assertEquals(expectedTotalPrice, actualDataPrice, String.format("Expected total price: %n\nActual total price: %n", expectedTotalPrice, actualDataPrice));
     }
 
-    @AfterEach
+    @AfterMethod(alwaysRun = true)
     public void tearDown() {
         fileToImport.delete();
     }
